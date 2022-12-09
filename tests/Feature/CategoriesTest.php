@@ -20,6 +20,15 @@ class CategoriesTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_categories_screen_cannot_be_rendered_by_user(): void
+    {
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)
+            ->get('/categories');
+
+        $response->assertForbidden();
+    }
+
     public function test_user_cannot_access_create_new_category_page(): void
     {
         $user = User::factory()->create();

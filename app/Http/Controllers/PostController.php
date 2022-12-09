@@ -39,7 +39,7 @@ class PostController extends Controller
 
     public function edit(Post $post): View
     {
-        if ($post->user_id !== auth()->id()) {
+        if (auth()->user()->cannot('update', $post)) {
             abort(403);
         }
 
@@ -50,6 +50,10 @@ class PostController extends Controller
 
     public function update(UpdatePostRequest $request, Post $post): RedirectResponse
     {
+        if (auth()->user()->cannot('update', $post)) {
+            abort(403);
+        }
+
         $post->update($request->validated());
 
         return redirect()->route('posts.index');
@@ -57,7 +61,7 @@ class PostController extends Controller
 
     public function destroy(Post $post): RedirectResponse
     {
-        if ($post->user_id !== auth()->id()) {
+        if (auth()->user()->cannot('delete', $post)) {
             abort(403);
         }
 

@@ -34,7 +34,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         }
     )->name('dashboard');
 
-    Route::resource('categories', CategoryController::class)->except('show')->middleware('is_admin');
+    Route::resource('categories', CategoryController::class)->except('show');
     Route::resource('posts', PostController::class);
     Route::get('/myposts', [PostController::class, 'myPosts'])->name('posts.myPosts');
 
