@@ -17,6 +17,7 @@ This is a simple project aimed at bettering my skills in the Laravel framework. 
 
 
 The default login credentials for an admin user is:
+
 Email: admin@example.com
 Password: admin
 
