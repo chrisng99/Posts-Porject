@@ -72,7 +72,7 @@ class PostController extends Controller
 
     public function myPosts(): View
     {
-        $posts = Post::where('user_id', auth()->id())->paginate(10);
+        $posts = Post::isAuthor()->paginate(10);
 
         return view('posts.myPosts', compact('posts'));
     }

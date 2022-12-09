@@ -42,10 +42,3 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 });
 
 require __DIR__ . '/auth.php';
-
-
-// USERS CAN ONLY EDIT AND DELETE THEIR OWN POSTS -> ROLES & PERMISSIONS or MODEL SCOPES
-
-// MAKE POSTS PAGE SPLIT USING LIVEWIRE -> ALL POSTS (NO CRUD BUTTONS) | USER'S POSTS (CRUD BUTTONS)
-
-// COMMENTS?

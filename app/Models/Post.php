@@ -26,4 +26,9 @@ class Post extends Model
     {
         return Str::limit($this->post_text, 150, '...');
     }
+
+    public function scopeIsAuthor($query)
+    {
+        $query->where('user_id', auth()->id());
+    }
 }
