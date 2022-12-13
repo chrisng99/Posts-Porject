@@ -33,7 +33,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('posts', PostController::class);
     Route::get('/myposts', [PostController::class, 'myPosts'])->name('posts.myPosts');
 
-    Route::get('/posts2', [PostController::class, 'index2']);
+    Route::get('/posts2', [PostController::class, 'index2'])->name('posts.index2');
+    Route::get('/myposts2', [PostController::class, 'myPosts2'])->name('posts.myPosts2');
 });
 
 require __DIR__ . '/auth.php';

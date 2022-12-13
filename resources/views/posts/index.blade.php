@@ -17,20 +17,36 @@
                     </div>
 
                     <div>
-                        <table style="width:auto">
+                        <table class="w-full">
                             <thead>
                                 <tr>
-                                    <th style="width:50%">Post Title</th>
-                                    <th style="width:25%">Category</th>
+                                    <th style="width:40%">Post Title</th>
+                                    <th style="width:20%">Category</th>
                                     <th style="width:25%">Author</th>
+                                    <th style="width:15%"></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($posts as $post)
                                 <tr>
                                     <td class="px-4 py-2"><a href="{{ route('posts.show', $post) }}">{{ $post->title }}</a></td>
-                                    <td style="text-align:center">{{ $post->category->name }}</td>
-                                    <td style="text-align:center">{{ $post->user->name }}</td>
+                                    <td class="text-center">{{ $post->category->name }}</td>
+                                    <td class="text-center">{{ $post->user->name }}</td>
+                                    <td class="text-right">
+                                        @can('update', $post)
+                                        <a href="{{ route('posts.edit', $post) }}">
+                                            <x-primary-button>Edit</x-primary-button>
+                                        </a>
+                                        @endcan
+                                        @can('delete', $post)
+                                        <form style="display:inline-table" method="POST" action="{{ route('posts.destroy', $post) }}" style="width: 50%">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <x-danger-button onclick="return confirm('Are you sure?')">Delete</x-danger-button>
+                                        </form>
+                                        @endcan
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

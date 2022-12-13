@@ -78,4 +78,11 @@ class PostController extends Controller
 
         return view('posts.index2', compact('posts', 'categories'));
     }
+
+    public function myPosts2(): View
+    {
+        $categories = Category::all();
+
+        return view('posts.myPosts2', compact('categories'));
+    }
 }

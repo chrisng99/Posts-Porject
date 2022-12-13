@@ -31,4 +31,9 @@ class Post extends Model
     {
         $query->where('user_id', auth()->id());
     }
+
+    public function scopeSearch($query, $search)
+    {
+        $query->where('title', 'like', '%' . $search . '%');
+    }
 }

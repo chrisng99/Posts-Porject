@@ -1,14 +1,16 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Posts') }}
-        </h2>
+        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Posts') }}
+            </h2>
+        </div>
     </x-slot>
 
     <div class="container">
         <div class="row">
             <!-- Blog entries-->
-            <div class="col-lg-10">
+            <div class="col-lg-9">
                 <!-- Featured blog post-->
                 @forelse ($posts as $post)
                 @if ($loop->first)
@@ -73,48 +75,8 @@
                     {{ $posts->links() }}
                 </div>
             </div>
-            <!-- User blog entries-->
-            {{-- <div class="col-lg-10">
-                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-                    <div class="p-4 sm:p-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <table style="width:auto">
-                            <thead>
-                                <tr>
-                                    <th style="width:40%">Post Title</th>
-                                    <th style="width:20%">Category</th>
-                                    <th style="width:20%">Author</th>
-                                    <th style="width:20%"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($posts as $post)
-                                <tr>
-                                    <td class="px-4 py-2"><a href="{{ route('posts.show', $post) }}">{{ $post->title }}</a></td>
-                                    <td style="text-align:center">{{ $post->category->name }}</td>
-                                    <td style="text-align:center">{{ $post->user->name }}</td>
-                                    <td style="float:right">
-                                        <a href="{{ route('posts.edit', $post) }}">
-                                            <x-primary-button>Edit</x-primary-button>
-                                        </a>
-                                        <form style="display:inline-table" method="POST" action="{{ route('posts.destroy', $post) }}" style="width: 50%">
-                                            @csrf
-                                            @method('DELETE')
-
-                                            <x-danger-button onclick="return confirm('Are you sure?')">Delete</x-danger-button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <div class="mt-6">
-                            {{ $posts->links() }}
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
             <!-- Side widgets-->
-            <div class="col-lg-2">
+            <div class="col-lg-3">
                 <!-- Search widget-->
                 <div class="card mb-4">
                     <div class="card-header">Search</div>
