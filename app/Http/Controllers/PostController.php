@@ -39,9 +39,7 @@ class PostController extends Controller
 
     public function edit(Post $post): View
     {
-        if (auth()->user()->cannot('update', $post)) {
-            abort(403);
-        }
+        $this->authorize('update', $post);
 
         $categories = Category::all();
 
@@ -50,9 +48,7 @@ class PostController extends Controller
 
     public function update(UpdatePostRequest $request, Post $post): RedirectResponse
     {
-        if (auth()->user()->cannot('update', $post)) {
-            abort(403);
-        }
+        $this->authorize('update', $post);
 
         $post->update($request->validated());
 
@@ -61,9 +57,7 @@ class PostController extends Controller
 
     public function destroy(Post $post): RedirectResponse
     {
-        if (auth()->user()->cannot('delete', $post)) {
-            abort(403);
-        }
+        $this->authorize('delete', $post);
 
         $post->delete();
 

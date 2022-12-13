@@ -27,12 +27,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
-    Route::get(
-        '/dashboard',
-        function () {
-            return view('dashboard');
-        }
-    )->name('dashboard');
+    Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
 
     Route::resource('categories', CategoryController::class)->except('show');
     Route::resource('posts', PostController::class);

@@ -7,17 +7,12 @@ use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         User::factory(10)->create();
 
         User::factory(1)->create([
-            'email' => 'admin@example.com',
+            'email' => 'admin@admin.com',
             'password' => bcrypt('admin'),
             'is_admin' => true
         ]);

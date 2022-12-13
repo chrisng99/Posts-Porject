@@ -7,18 +7,18 @@ This is a simple project aimed at bettering my skills in the Laravel framework. 
 ## How to install the system
 
 - Clone github repository
-- Open the project folder in CLI and run 'composer install'
+- Run 'composer install'
 - Create a .env file following the example provided in the .env.example file
 - Edit .env variables as necessary (timezone, database details)
-- Run 'php artisan key:generate' in the CLI
-- Create a database in MySQL server following the defined DB_DATABASE variable in .env (default is 'MyFirstProjectLaravel')
+- Run 'php artisan key:generate'
+- Create a database in your server choice following the defined database variables in .env
 - Create another database for features testing purposes named 'MyFirstProjectLaravel.testing' (editable in the phpunit.xml file)
-- Run 'php artisan migrate --seed' in the CLI
+- Run 'php artisan migrate --seed'
 
 
 The default login credentials for an admin user is:
 
-Email: admin@example.com
+Email: admin@admin.com
 
 Password: admin
 

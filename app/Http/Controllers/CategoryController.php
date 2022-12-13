@@ -11,9 +11,7 @@ class CategoryController extends Controller
 {
     public function index(): View
     {
-        if (auth()->user()->cannot('viewAny', Category::class)) {
-            abort(403);
-        }
+        $this->authorize('manage-categories');
 
         $categories = Category::all();
 
@@ -22,18 +20,14 @@ class CategoryController extends Controller
 
     public function create(): View
     {
-        if (auth()->user()->cannot('create', Category::class)) {
-            abort(403);
-        }
+        $this->authorize('manage-categories');
 
         return view('categories.create');
     }
 
     public function store(CategoriesRequest $request): RedirectResponse
     {
-        if (auth()->user()->cannot('create', Category::class)) {
-            abort(403);
-        }
+        $this->authorize('manage-categories');
 
         Category::create($request->validated());
 
@@ -42,18 +36,14 @@ class CategoryController extends Controller
 
     public function edit(Category $category): View
     {
-        if (auth()->user()->cannot('update', $category)) {
-            abort(403);
-        }
+        $this->authorize('manage-categories');
 
         return view('categories.edit', compact('category'));
     }
 
     public function update(CategoriesRequest $request, Category $category): RedirectResponse
     {
-        if (auth()->user()->cannot('update', $category)) {
-            abort(403);
-        }
+        $this->authorize('manage-categories');
 
         $category->update($request->validated());
 
@@ -62,9 +52,7 @@ class CategoryController extends Controller
 
     public function destroy(Category $category): RedirectResponse
     {
-        if (auth()->user()->cannot('delete', $category)) {
-            abort(403);
-        }
+        $this->authorize('manage-categories');
 
         $category->delete();
 
