@@ -27,14 +27,14 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
-    Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
+    Route::get('/dashboard', fn () => view('dashboard'))->name('dashboard');
 
     Route::resource('categories', CategoryController::class)->except('show');
     Route::resource('posts', PostController::class);
-    Route::get('/myposts', [PostController::class, 'myPosts'])->name('posts.myPosts');
 
-    Route::get('/posts2', [PostController::class, 'index2'])->name('posts.index2');
-    Route::get('/myposts2', [PostController::class, 'myPosts2'])->name('posts.myPosts2');
+    // Testing
+    Route::get('/posts-table', [PostController::class, 'postsTable']);
+    Route::get('/my-posts-table', [PostController::class, 'myPostsTable']);
 });
 
 require __DIR__ . '/auth.php';

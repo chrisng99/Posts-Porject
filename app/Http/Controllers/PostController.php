@@ -13,9 +13,9 @@ class PostController extends Controller
 {
     public function index(): View
     {
-        $posts = Post::with('category', 'user')->paginate(10);
+        $categories = Category::all();
 
-        return view('posts.index', compact('posts'));
+        return view('posts.index', compact('categories'));
     }
 
     public function create(): View
@@ -64,25 +64,18 @@ class PostController extends Controller
         return redirect()->route('posts.index');
     }
 
-    public function myPosts(): View
+    // Testing
+    public function postsTable(): View
     {
-        $posts = Post::isAuthor()->paginate(10);
+        $posts = Post::with('user')->paginate(10);
 
-        return view('posts.myPosts', compact('posts'));
+        return view('posts.index-table', compact('posts'));
     }
 
-    public function index2(): View
+    public function myPostsTable(): View
     {
-        $posts = Post::with('user')->paginate(7);
-        $categories = Category::all();
+        $posts = Post::with('user')->isAuthor()->paginate(7);
 
-        return view('posts.index2', compact('posts', 'categories'));
-    }
-
-    public function myPosts2(): View
-    {
-        $categories = Category::all();
-
-        return view('posts.myPosts2', compact('categories'));
+        return view('posts.my-posts-table', compact('posts'));
     }
 }

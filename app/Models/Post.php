@@ -34,6 +34,7 @@ class Post extends Model
 
     public function scopeSearch($query, $search)
     {
-        $query->where('title', 'like', '%' . $search . '%');
+        $query->where('title', 'like', '%' . $search . '%')
+            ->orWhere('post_text', 'like', '%' . $search . '%');
     }
 }

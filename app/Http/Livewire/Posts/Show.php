@@ -22,10 +22,9 @@ class Show extends Component
     public function render()
     {
         if ($this->filterMyPosts == false) {
-            return view('livewire.post.show', ['posts' => Post::with('user')->search($this->search)->paginate(7)]);
-        }
-        elseif ($this->filterMyPosts == true) {
-            return view('livewire.post.show', ['posts' => Post::with('user')->isAuthor()->search($this->search)->paginate(7)]);
+            return view('livewire.posts.show', ['posts' => Post::with('user')->search($this->search)->latest()->paginate(7)]);
+        } elseif ($this->filterMyPosts == true) {
+            return view('livewire.posts.show', ['posts' => Post::with('user')->isAuthor()->search($this->search)->latest()->paginate(7)]);
         }
     }
 

@@ -23,8 +23,8 @@ class Search extends Component
         $this->reset();
     }
 
-    public function search()
+    public function searchPosts()
     {
-        $this->emit('searchPosts', $this->search);
+        $this->emitTo('posts.show', 'searchPosts', $this->search);
     }
 }
