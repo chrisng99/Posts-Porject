@@ -13,9 +13,7 @@ class PostController extends Controller
 {
     public function index(): View
     {
-        $categories = Category::all();
-
-        return view('posts.index', compact('categories'));
+        return view('posts.index');
     }
 
     public function create(): View

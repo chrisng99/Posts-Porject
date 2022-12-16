@@ -21,20 +21,7 @@
                 <!-- Search widget-->
                 @livewire('posts.search')
                 <!-- Categories widget-->
-                <div class="card mb-4">
-                    <div class="card-header">Categories</div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <ul class="list-group-numbered mb-0">
-                                    @foreach ($categories as $category)
-                                        <li>{{ $category->name }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @livewire('posts.categories-widget')
                 <!-- Side widget-->
                 <div class="card mb-4">
                     <div class="card-header">Side Widget</div>
