@@ -9,7 +9,7 @@
         <h2 class="card-title h4">{{ $post->title }}</h2>
         <p class="card-text">{{ $post->post_text_truncated }}</p>
         <div>
-            <a wire:click="$emit('openModal', 'show-post-modal', {{ json_encode(['post' => $post->id]) }})" class="btn btn-primary mt-4">Read more
+            <a wire:click="$emit('openModal', 'posts.show-post-modal', {{ json_encode(['post' => $post->id]) }})" class="btn btn-primary mt-4">Read more
                 →</a>
             <div class="inline-flex float-right mt-4">
                 @can('update', $post)
