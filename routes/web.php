@@ -30,11 +30,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/dashboard', fn () => view('dashboard'))->name('dashboard');
 
     Route::resource('categories', CategoryController::class)->except('show');
-    Route::resource('posts', PostController::class);
-
-    // Testing
-    Route::get('/posts-table', [PostController::class, 'postsTable']);
-    Route::get('/my-posts-table', [PostController::class, 'myPostsTable']);
+    Route::view('/posts', 'posts.index')->name('posts.index');
 });
 
 require __DIR__ . '/auth.php';

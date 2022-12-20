@@ -13,8 +13,9 @@ class CategoriesWidget extends Component
     public $categoriesFilters = [];
 
     protected $listeners = [
-        'showAllPosts' => 'resetFilters',
-        'showMyPosts' => 'resetFilters',
+        'showAllPostsEvent' => 'resetFilters',
+        'showMyPostsEvent' => 'resetFilters',
+        'closedModalEvent' => 'resetFilters',
     ];
 
     public function mount(): void
@@ -29,7 +30,7 @@ class CategoriesWidget extends Component
 
     public function filterPosts(): void
     {
-        $this->emitTo('posts.show', 'filterPosts', $this->categoriesFilters);
+        $this->emitTo('posts.show', 'filterPostsEvent', $this->categoriesFilters);
     }
 
     public function resetFilters(): void

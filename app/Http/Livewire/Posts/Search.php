@@ -11,8 +11,9 @@ class Search extends Component
     public $search = '';
 
     protected $listeners = [
-        'showAllPosts' => 'resetFilters',
-        'showMyPosts' => 'resetFilters',
+        'showAllPostsEvent' => 'resetFilters',
+        'showMyPostsEvent' => 'resetFilters',
+        'closedModalEvent' => 'resetFilters',
     ];
 
     public function render(): View|Factory
@@ -27,6 +28,6 @@ class Search extends Component
 
     public function searchPosts(): void
     {
-        $this->emitTo('posts.show', 'searchPosts', $this->search);
+        $this->emitTo('posts.show', 'searchPostsEvent', $this->search);
     }
 }

@@ -1,15 +1,18 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight p-header">
+        <div class="hidden sm:flex -mx-6">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight p-header mx-6">
                 {{ __('Posts') }}
             </h2>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                <a onclick="Livewire.emit('showAllPosts')" class="btn btn-primary">All Posts</a>
-            </h2>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                <a onclick="Livewire.emit('showMyPosts')" class="btn btn-primary">My Posts</a>
-            </h2>
+            <div class="font-semibold text-xl text-gray-800 leading-tight mx-6">
+                <a onclick="Livewire.emit('showAllPostsEvent')" class="btn btn-primary">All Posts</a>
+            </div>
+            <div class="font-semibold text-xl text-gray-800 leading-tight mx-6">
+                <a onclick="Livewire.emit('showMyPostsEvent')" class="btn btn-primary">My Posts</a>
+            </div>
+            <div class="font-semibold text-xl text-gray-800 ml-auto">
+                <a onclick="Livewire.emit('openModal', 'posts.create-post-modal')" class="btn btn-primary">Create New Post</a>
+            </div>
         </div>
     </x-slot>
 
@@ -17,6 +20,7 @@
         <div class="row">
             <!-- Blog entries-->
             @livewire('posts.show')
+
             <div class="col-lg-3">
                 <!-- Search widget-->
                 @livewire('posts.search')
