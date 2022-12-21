@@ -27,14 +27,12 @@ class EditPostModal extends ModalComponent
         'category_id.required' => 'The category field cannot be empty.',
     ];
 
-    public function mount($post_id): void
+    public function mount(): void
     {
-        $post = Post::find($post_id);
-        $this->post_id = $post->id;
         $this->categories = Category::all();
-        $this->title = $post->title;
-        $this->post_text = $post->post_text;
-        $this->category_id = $post->category_id;
+        $this->title = $this->post->title;
+        $this->post_text = $this->post->post_text;
+        $this->category_id = $this->post->category_id;
     }
 
     public function render(): View|Factory
@@ -42,17 +40,15 @@ class EditPostModal extends ModalComponent
         return view('livewire.posts.edit-post-modal');
     }
 
-    public static function modalMaxWidth(): string
+    public function getPostProperty(): Post
     {
-        return '6xl';
+        return Post::find($this->post_id);
     }
 
-    public function submit()
+    public function submit(): void
     {
-        $post = Post::find($this->post_id);
-
-        if (Gate::authorize('manage-post', $post)) {
-            $post->update($this->validate());
+        if (Gate::authorize('manage-post', $this->post)) {
+            $this->post->update($this->validate());
         }
 
         $this->closeModalWithEvents(['closedModalEvent']);

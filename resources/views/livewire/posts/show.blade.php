@@ -9,7 +9,8 @@
                     <h2 class="card-title">{{ $post->title }}</h2>
                     <p class="card-text">{{ $post->post_text }}</p>
                     <div>
-                        <a wire:click="$emit('openModal', 'posts.show-post-modal', {{ json_encode(['post_id' => $post->id]) }})" class="btn btn-primary mt-4">Read
+                        <a wire:click="$emit('openModal', 'posts.show-post-modal', {{ json_encode([$post->user->name ?? 'Anonymous', $post->title, $post->category->name, $post->post_text]) }})"
+                            class="btn btn-primary mt-4">Read
                             more
                             →</a>
                         @can('manage-post', $post)
@@ -17,7 +18,7 @@
                                 <a wire:click="$emit('openModal', 'posts.edit-post-modal', {{ json_encode(['post_id' => $post->id]) }})">
                                     <x-primary-button>Edit</x-primary-button>
                                 </a>
-                                <form class="ml-2" wire:submit.prevent="destroyPost({{ $post }})">
+                                <form class="ml-2" wire:submit.prevent="destroyPost({{ $post->id }})">
                                     @csrf
 
                                     <x-danger-button onclick="return confirm('Are you sure?')">Delete</x-danger-button>
@@ -49,7 +50,7 @@
                             <h2 class="card-title h4">{{ $post->title }}</h2>
                             <p class="card-text">{{ $post->post_text_truncated }}</p>
                             <div>
-                                <a wire:click="$emit('openModal', 'posts.show-post-modal', {{ json_encode(['post_id' => $post->id]) }})"
+                                <a wire:click="$emit('openModal', 'posts.show-post-modal', {{ json_encode([$post->user->name ?? 'Anonymous', $post->title, $post->category->name, $post->post_text]) }})"
                                     class="btn btn-primary mt-4">Read more
                                     →</a>
                                 @can('manage-post', $post)
@@ -57,7 +58,7 @@
                                         <a wire:click="$emit('openModal', 'posts.edit-post-modal', {{ json_encode(['post_id' => $post->id]) }})">
                                             <x-primary-button>Edit</x-primary-button>
                                         </a>
-                                        <form class="ml-2" wire:submit.prevent="destroyPost({{ $post }})">
+                                        <form class="ml-2" wire:submit.prevent="destroyPost({{ $post->id }})">
                                             @csrf
 
                                             <x-danger-button onclick="return confirm('Are you sure?')">Delete</x-danger-button>
@@ -83,7 +84,7 @@
                             <h2 class="card-title h4">{{ $post->title }}</h2>
                             <p class="card-text">{{ $post->post_text_truncated }}</p>
                             <div>
-                                <a wire:click="$emit('openModal', 'posts.show-post-modal', {{ json_encode(['post_id' => $post->id]) }})"
+                                <a wire:click="$emit('openModal', 'posts.show-post-modal', {{ json_encode([$post->user->name ?? 'Anonymous', $post->title, $post->category->name, $post->post_text]) }})"
                                     class="btn btn-primary mt-4">Read more
                                     →</a>
                                 @can('manage-post', $post)
@@ -91,7 +92,7 @@
                                         <a wire:click="$emit('openModal', 'posts.edit-post-modal', {{ json_encode(['post_id' => $post->id]) }})">
                                             <x-primary-button>Edit</x-primary-button>
                                         </a>
-                                        <form class="ml-2" wire:submit.prevent="destroyPost({{ $post }})">
+                                        <form class="ml-2" wire:submit.prevent="destroyPost({{ $post->id }})">
                                             @csrf
 
                                             <x-danger-button onclick="return confirm('Are you sure?')">Delete</x-danger-button>

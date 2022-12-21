@@ -21,7 +21,7 @@ class Show extends Component
         'showAllPostsEvent' => 'showAllPosts',
         'showMyPostsEvent' => 'showMyPosts',
         'searchPostsEvent' => 'searchPosts',
-        'filterPostsEvent' => 'filterPosts',
+        'filterPostsByCategoryEvent' => 'filterPostsByCategory',
         'closedModalEvent' => 'showAllPosts',
     ];
 
@@ -30,20 +30,8 @@ class Show extends Component
         return view('livewire.posts.show', [
             'posts' => Post::with('user', 'category')
                 ->search($this->search)
-                ->when(
-                    $this->categoriesFilters,
-                    function ($query, $categoriesFilters) {
-                        $query->filterByCategories($categoriesFilters)
-                            ->when($this->filterMyPosts, function ($query) {
-                                $query->isAuthor();
-                            });
-                    },
-                    function ($query) {
-                        $query->when($this->filterMyPosts, function ($query) {
-                            $query->isAuthor();
-                        });
-                    }
-                )
+                ->when($this->categoriesFilters, fn ($query, $categoriesFilters) => $query->filterByCategories($categoriesFilters))
+                ->when($this->filterMyPosts, fn ($query) => $query->isAuthor())
                 ->latest()
                 ->paginate(7)
         ]);
@@ -53,14 +41,12 @@ class Show extends Component
     {
         $this->filterMyPosts = false;
         $this->resetExcept('filterMyPosts');
-        $this->resetPage();
     }
 
     public function showMyPosts(): void
     {
         $this->filterMyPosts = true;
         $this->resetExcept('filterMyPosts');
-        $this->resetPage();
     }
 
     public function searchPosts($search): void
@@ -69,7 +55,7 @@ class Show extends Component
         $this->resetPage();
     }
 
-    public function filterPosts($categoriesFilters): void
+    public function filterPostsByCategory($categoriesFilters): void
     {
         $this->categoriesFilters = $categoriesFilters;
         $this->resetPage();

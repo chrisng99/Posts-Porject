@@ -20,7 +20,6 @@
         <div class="row">
             <!-- Blog entries-->
             @livewire('posts.show')
-
             <div class="col-lg-3">
                 <!-- Search widget-->
                 @livewire('posts.search')

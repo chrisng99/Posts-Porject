@@ -34,12 +34,7 @@ class CreatePostModal extends ModalComponent
         return view('livewire.posts.create-post-modal');
     }
 
-    public static function modalMaxWidth(): string
-    {
-        return '6xl';
-    }
-
-    public function submit()
+    public function submit(): void
     {
         auth()->user()->posts()->create($this->validate());
 

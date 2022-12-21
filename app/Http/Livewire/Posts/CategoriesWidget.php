@@ -30,7 +30,7 @@ class CategoriesWidget extends Component
 
     public function filterPosts(): void
     {
-        $this->emitTo('posts.show', 'filterPostsEvent', $this->categoriesFilters);
+        $this->emitTo('posts.show', 'filterPostsByCategoryEvent', $this->categoriesFilters);
     }
 
     public function resetFilters(): void
