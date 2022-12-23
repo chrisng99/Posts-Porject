@@ -29,7 +29,7 @@ class EditPostModal extends ModalComponent
 
     public function mount(): void
     {
-        $this->categories = Category::all();
+        $this->categories = Category::select('id', 'name')->get()->toArray();
         $this->title = $this->post->title;
         $this->post_text = $this->post->post_text;
         $this->category_id = $this->post->category_id;

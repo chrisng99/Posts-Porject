@@ -26,7 +26,7 @@ class Search extends Component
         $this->reset();
     }
 
-    public function searchPosts(): void
+    public function updatedSearch(): void
     {
         $this->emitTo('posts.show', 'searchPostsEvent', $this->search);
     }

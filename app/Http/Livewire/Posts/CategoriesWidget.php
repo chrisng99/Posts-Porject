@@ -20,7 +20,7 @@ class CategoriesWidget extends Component
 
     public function mount(): void
     {
-        $this->categories = Category::all();
+        $this->categories = Category::select('id', 'name')->get()->toArray();
     }
 
     public function render(): View|Factory
@@ -28,7 +28,7 @@ class CategoriesWidget extends Component
         return view('livewire.posts.categories-widget');
     }
 
-    public function filterPosts(): void
+    public function updatedCategoriesFilters(): void
     {
         $this->emitTo('posts.show', 'filterPostsByCategoryEvent', $this->categoriesFilters);
     }
