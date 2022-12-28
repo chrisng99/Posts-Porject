@@ -5,190 +5,103 @@ namespace Tests\Feature;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
 use Tests\TestCase;
 
 class PostsTest extends TestCase
 {
-    use RefreshDatabase;
+    use FastRefreshDatabase;
 
-    public function test_posts_screen_can_be_rendered(): void
+    public function test_posts_page_can_be_rendered(): void
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->get('/posts');
-        $response->assertStatus(200);
+        $this->actingAs($user)->get('/posts')
+            ->assertStatus(200);
     }
 
-    public function test_my_posts_screen_can_be_rendered(): void
+    public function test_user_must_be_logged_in_to_access_posts_page(): void
     {
-        $user = User::factory()->create();
-        $category = Category::create(['name' => fake()->word()]);
-        $post = Post::create([
-            'title' => fake()->sentence(),
-            'post_text' => fake()->paragraphs(3, true),
-            'category_id' => $category->id,
-            'user_id' => $user->id
-        ]);
-
-        $response = $this->actingAs($user)->get('/myposts');
-        $response->assertStatus(200)
-            ->assertSeeText($post->title)
-            ->assertSeeText($user->name);
+        $this->get('/posts')
+            ->assertRedirectToRoute('login');
     }
 
-    public function test_user_can_access_show_post_page(): void
+    public function test_post_model_belongs_to_category_model(): void
     {
-        $user = User::factory()->create();
-        $category = Category::create(['name' => fake()->word()]);
-        $post = Post::create([
-            'title' => fake()->sentence(),
-            'post_text' => fake()->paragraphs(3, true),
-            'category_id' => $category->id,
-            'user_id' => $user->id
-        ]);
+        $category = Category::factory()->create();
+        Post::factory()->for($category)->create();
 
-        $response = $this->actingAs($user)->get('/posts/' . $post->id);
-        $response->assertSuccessful()
-            ->assertSee($post->title)
-            ->assertSeeText($post->post_text);
+        $this->assertTrue(Post::with('category')->first()->category->name == $category->name);
     }
 
-    public function test_user_can_access_create_new_post_page(): void
+    public function test_post_model_belongs_to_user_model(): void
     {
         $user = User::factory()->create();
+        $category = Category::factory()->create();
+        Post::factory()->for($category)->for($user)->create();
 
-        $response = $this->actingAs($user)->get('/posts/create');
-        $response->assertSuccessful();
+        $this->assertTrue(Post::with('user')->first()->user->name == $user->name);
     }
 
-    public function test_user_can_store_new_post(): void
+    public function test_post_text_truncated_accessor_functions(): void
     {
-        $user = User::factory()->create();
-        $category = Category::create(['name' => fake()->word()]);
+        $category = Category::factory()->create();
+        $post = Post::factory()->for($category)->create();
 
-        $response = $this->actingAs($user)->post('/posts', [
-            'title' => 'New Post Title',
-            'post_text' => 'New Post Text',
-            'category_id' => $category->id,
-            'user_id' => $user->id
-        ]);
-
-        $response->assertRedirect();
-        $this->assertDatabaseHas('posts', [
-            'title' => 'New Post Title',
-            'post_text' => 'New Post Text'
-        ]);
+        $this->assertTrue(strlen($post->post_text_truncated) == 153);
     }
 
-    public function test_user_cannot_access_edit_post_page_if_user_is_not_post_author(): void
+    public function test_isAuthor_scope_functions(): void
     {
         $user = User::factory()->create();
-        User::factory()->create(['id' => 10]);
-        $category = Category::create(['name' => fake()->word()]);
-        $post = Post::create([
-            'title' => fake()->sentence(),
-            'post_text' => fake()->paragraphs(3, true),
-            'category_id' => $category->id,
-            'user_id' => 10
-        ]);
+        $category = Category::factory()->create();
+        Post::factory(10)->for($category)->create();
+        $post = Post::factory()->for($category)->for($user)->create();
 
-        $response = $this->actingAs($user)->get('/posts/' . $post->id . '/edit');
-        $response->assertForbidden();
+        $this->actingAs($user);
+        $this->assertTrue(Post::isAuthor()->get()->count() == 1);
+        $this->assertTrue(Post::isAuthor()->first()->id == $post->id);
     }
 
-    public function test_user_can_access_edit_post_page_if_user_is_post_author(): void
+    public function test_search_scope_functions(): void
     {
-        $user = User::factory()->create();
-        $category = Category::create(['name' => fake()->word()]);
-        $post = Post::create([
-            'title' => fake()->sentence(),
-            'post_text' => fake()->paragraphs(3, true),
-            'category_id' => $category->id,
-            'user_id' => $user->id
-        ]);
+        $category = Category::factory()->create();
+        Post::factory(10)->for($category)->create();
+        $post1 = Post::factory()->for($category)->create(['title' => 'Test Post Title']);
+        $post2 = Post::factory()->for($category)->create(['post_text' => 'Test Post Text']);
 
-        $response = $this->actingAs($user)->get('/posts/' . $post->id . '/edit');
-        $response->assertSuccessful();
+        // Searching with post title
+        $this->assertTrue(Post::search('Test Post Title')->get()->count() == 1);
+        $this->assertTrue(Post::search('Test Post Title')->first()->id == $post1->id);
+        // Searching with post text
+        $this->assertTrue(Post::search('Test Post Text')->get()->count() == 1);
+        $this->assertTrue(Post::search('Test Post Text')->first()->id == $post2->id);
     }
 
-    public function test_user_cannot_update_post_if_user_is_not_post_author(): void
+    public function test_filterByCategories_scope_functions(): void
     {
-        $user = User::factory()->create();
-        User::factory()->create(['id' => 10]);
-        $category = Category::create(['name' => fake()->word()]);
-        $post = Post::create([
-            'title' => fake()->sentence(),
-            'post_text' => fake()->paragraphs(3, true),
-            'category_id' => $category->id,
-            'user_id' => 10
-        ]);
+        $category1 = Category::factory()->create();
+        $category2 = Category::factory()->create();
+        $category3 = Category::factory()->create();
+        $category4 = Category::factory()->create();
+        $post1 = Post::factory()->for($category1)->create();
+        $post2 = Post::factory()->for($category2)->create();
+        $post3 = Post::factory()->for($category3)->create();
+        $post4 = Post::factory()->for($category4)->create();
 
-        $response = $this->actingAs($user)->put('/posts/' . $post->id, [
-            'title' => 'New Post Title',
-            'post_text' => 'New Post Text',
-            'category_id' => $category->id
-        ]);
-        $response->assertForbidden();
-    }
+        $filteredPostOneCategory = Post::filterByCategories([$category2->id])->get();
+        $filteredPostThreeCategories = Post::filterByCategories([$category1->id, $category3->id, $category4->id])->get();
 
-    public function test_user_can_update_post_if_user_is_post_author(): void
-    {
-        $user = User::factory()->create();
-        $category = Category::create(['name' => fake()->word()]);
-        $post = Post::create([
-            'title' => fake()->sentence(),
-            'post_text' => fake()->paragraphs(3, true),
-            'category_id' => $category->id,
-            'user_id' => $user->id
-        ]);
-
-        $response = $this->actingAs($user)->put('/posts/' . $post->id, [
-            'title' => 'New Post Title',
-            'post_text' => 'New Post Text',
-            'category_id' => $category->id
-        ]);
-
-        $response->assertRedirect();
-        $this->assertDatabaseMissing('posts', [
-            'title' => $post->title,
-            'post_text' => $post->post_text,
-        ])
-            ->assertDatabaseHas('posts', [
-                'title' => 'New Post Title',
-                'post_text' => 'New Post Text'
-            ]);
-    }
-
-    public function test_user_cannot_destroy_post_if_user_is_not_post_author(): void
-    {
-        $user = User::factory()->create();
-        User::factory()->create(['id' => 10]);
-        $category = Category::create(['name' => fake()->word()]);
-        $post = Post::create([
-            'title' => fake()->sentence(),
-            'post_text' => fake()->paragraphs(3, true),
-            'category_id' => $category->id,
-            'user_id' => 10
-        ]);
-
-        $response = $this->actingAs($user)->delete('/posts/' . $post->id);
-        $response->assertForbidden();
-    }
-
-    public function test_user_can_destroy_post_if_user_is_post_author(): void
-    {
-        $user = User::factory()->create();
-        $category = Category::create(['name' => fake()->word()]);
-        $post = Post::create([
-            'title' => fake()->sentence(),
-            'post_text' => fake()->paragraphs(3, true),
-            'category_id' => $category->id,
-            'user_id' => $user->id
-        ]);
-
-        $response = $this->actingAs($user)->delete('/posts/' . $post->id);
-        $response->assertRedirect();
-        $this->assertModelMissing($post);
+        // No filter
+        $this->assertTrue(Post::filterByCategories([])->get()->count() == 4);
+        // Filter by one category
+        $this->assertTrue($filteredPostOneCategory->count() == 1);
+        $this->assertTrue($filteredPostOneCategory->values()[0]->id == $post2->id);
+        // Filter by more than one category
+        $this->assertTrue($filteredPostThreeCategories->count() == 3);
+        $this->assertTrue($filteredPostThreeCategories->every(fn ($value) => $value->id != $post2->id));
+        $this->assertTrue($filteredPostThreeCategories->every(
+            fn ($value) => $value->id == $post1->id || $value->id == $post3->id || $value->id == $post4->id
+        ));
     }
 }

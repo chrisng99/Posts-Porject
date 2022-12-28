@@ -11,11 +11,8 @@
         <testsuite name="Feature">
             <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
-        <testsuite name="Posts">
-            <directory suffix="Test.php">./tests/Feature/PostsTest.php</directory>
-        </testsuite>
-        <testsuite name="Categories">
-            <directory suffix="Test.php">./tests/Feature/CategoriesTest.php</directory>
+        <testsuite name="Livewire.Posts">
+            <directory suffix="Test.php">./tests/Feature/Livewire/Posts</directory>
         </testsuite>
     </testsuites>
     <coverage processUncoveredFiles="true">
