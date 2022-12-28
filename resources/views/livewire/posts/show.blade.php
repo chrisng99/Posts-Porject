@@ -5,7 +5,7 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <div class="small text-muted">{{ $post->created_at }}</div>
-                    <div class="small text-muted fst-italic">Written By {{ $post->user->name ?? 'Anonymous' }}</div>
+                    <div class="small text-muted fst-italic">Written by {{ $post->user->name ?? 'Anonymous' }}</div>
                     <h2 class="card-title">{{ $post->title }}</h2>
                     <p class="card-text">{{ $post->post_text }}</p>
                     <div>
@@ -45,7 +45,7 @@
                     <div class="card mb-4">
                         <div class="card-body">
                             <div class="small text-muted">{{ $post->created_at }}</div>
-                            <div class="small text-muted fst-italic">Written By {{ $post->user->name ?? 'Anonymous' }}
+                            <div class="small text-muted fst-italic">Written by {{ $post->user->name ?? 'Anonymous' }}
                             </div>
                             <h2 class="card-title h4">{{ $post->title }}</h2>
                             <p class="card-text">{{ $post->post_text_truncated }}</p>
@@ -79,7 +79,7 @@
                     <div class="card mb-4">
                         <div class="card-body">
                             <div class="small text-muted">{{ $post->created_at }}</div>
-                            <div class="small text-muted fst-italic">Written By {{ $post->user->name ?? 'Anonymous' }}
+                            <div class="small text-muted fst-italic">Written by {{ $post->user->name ?? 'Anonymous' }}
                             </div>
                             <h2 class="card-title h4">{{ $post->title }}</h2>
                             <p class="card-text">{{ $post->post_text_truncated }}</p>
