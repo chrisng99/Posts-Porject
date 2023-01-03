@@ -199,4 +199,14 @@ class ShowTest extends TestCase
             'post_text' => $post->post_text,
         ]);
     }
+
+    public function test_datetime_blade_directive_functions(): void
+    {
+        $category = Category::factory()->create();
+        $post = Post::factory()->for($category)->create();
+
+        Livewire::test(Show::class)
+            ->assertSeeHtml('<time datetime="'. $post->created_at .'">')
+            ->assertSee($post->created_at->format('F d, Y'));
+    }
 }

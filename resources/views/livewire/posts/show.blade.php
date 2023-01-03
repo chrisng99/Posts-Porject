@@ -4,12 +4,15 @@
         @if ($loop->first)
             <div class="card mb-4">
                 <div class="card-body">
-                    <div class="small text-muted">{{ $post->created_at }}</div>
-                    <div class="small text-muted fst-italic">Written by {{ $post->user->name ?? 'Anonymous' }}</div>
-                    <h2 class="card-title">{{ $post->title }}</h2>
-                    <p class="card-text">{{ $post->post_text }}</p>
+                    <div class="flex items-center mb-1">
+                        <h3 class="text-xl font-semibold text-gray-900">{{ $post->title }}</h3>
+                    </div>
+                    <footer class="mb-5 text-sm text-gray-500">
+                        <p>Written by {{ $post->user->name ?? 'Anonymous' }} on <time datetime="{{ $post->created_at }}">@datetime($post->created_at)</time></p>
+                    </footer>
+                    <p class="mb-2 font-light text-gray-500 whitespace-pre-line">{{ $post->post_text }}</p>
                     <div>
-                        <a wire:click="$emit('openModal', 'posts.show-post-modal', {{ json_encode([$post->user->name ?? 'Anonymous', $post->title, $post->category->name, $post->post_text]) }})"
+                        <a wire:click="$emit('openModal', 'posts.show-post-modal', {{ json_encode(['post_id' => $post->id]) }})"
                             class="btn btn-primary mt-4">Read
                             more
                             →</a>
@@ -44,13 +47,15 @@
                 @if (!$loop->first && $loop->even)
                     <div class="card mb-4">
                         <div class="card-body">
-                            <div class="small text-muted">{{ $post->created_at }}</div>
-                            <div class="small text-muted fst-italic">Written by {{ $post->user->name ?? 'Anonymous' }}
+                            <div class="flex items-center mb-1">
+                                <h3 class="text-xl font-semibold text-gray-900">{{ $post->title }}</h3>
                             </div>
-                            <h2 class="card-title h4">{{ $post->title }}</h2>
-                            <p class="card-text">{{ $post->post_text_truncated }}</p>
+                            <footer class="mb-3 text-sm text-gray-500">
+                                <p>Written by {{ $post->user->name ?? 'Anonymous' }} on <time datetime="{{ $post->created_at }}">@datetime($post->created_at)</time></p>
+                            </footer>
+                            <p class="mb-2 font-light text-gray-500 whitespace-pre-line">{{ $post->post_text_truncated }}</p>
                             <div>
-                                <a wire:click="$emit('openModal', 'posts.show-post-modal', {{ json_encode([$post->user->name ?? 'Anonymous', $post->title, $post->category->name, $post->post_text]) }})"
+                                <a wire:click="$emit('openModal', 'posts.show-post-modal', {{ json_encode(['post_id' => $post->id]) }})"
                                     class="btn btn-primary mt-4">Read more
                                     →</a>
                                 @can('manage-post', $post)
@@ -78,13 +83,15 @@
                 @if (!$loop->first && $loop->odd)
                     <div class="card mb-4">
                         <div class="card-body">
-                            <div class="small text-muted">{{ $post->created_at }}</div>
-                            <div class="small text-muted fst-italic">Written by {{ $post->user->name ?? 'Anonymous' }}
+                            <div class="flex items-center mb-1">
+                                <h3 class="text-xl font-semibold text-gray-900">{{ $post->title }}</h3>
                             </div>
-                            <h2 class="card-title h4">{{ $post->title }}</h2>
-                            <p class="card-text">{{ $post->post_text_truncated }}</p>
+                            <footer class="mb-3 text-sm text-gray-500">
+                                <p>Written by {{ $post->user->name ?? 'Anonymous' }} on <time datetime="{{ $post->created_at }}">@datetime($post->created_at)</time></p>
+                            </footer>
+                            <p class="mb-2 font-light text-gray-500 whitespace-pre-line">{{ $post->post_text_truncated }}</p>
                             <div>
-                                <a wire:click="$emit('openModal', 'posts.show-post-modal', {{ json_encode([$post->user->name ?? 'Anonymous', $post->title, $post->category->name, $post->post_text]) }})"
+                                <a wire:click="$emit('openModal', 'posts.show-post-modal', {{ json_encode(['post_id' => $post->id]) }})"
                                     class="btn btn-primary mt-4">Read more
                                     →</a>
                                 @can('manage-post', $post)

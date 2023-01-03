@@ -17,7 +17,10 @@ class ShowPostModalTest extends TestCase
 
     public function test_show_post_modal_can_be_rendered(): void
     {
-        Livewire::test(ShowPostModal::class, ['Author', 'Post Title', 'Category Name', 'Post Text'])
+        $category = Category::factory()->create();
+        $post = Post::factory()->for($category)->create();
+
+        Livewire::test(ShowPostModal::class, ['post_id' => $post->id])
             ->assertStatus(200)
             ->assertViewIs('livewire.posts.show-post-modal');
     }
@@ -31,7 +34,7 @@ class ShowPostModalTest extends TestCase
         Livewire::component('posts.show-post-modal', ShowPostModal::class);
 
         $component = 'posts.show-post-modal';
-        $componentAttributes = ['', $post->title, $category->name, $post->post_text];
+        $componentAttributes = ['post_id' => $post->id];
         $modalAttributes = ['closeOnEscape' => true, 'maxWidth' => '2xl',  'maxWidthClass' => 'sm:max-w-md md:max-w-xl lg:max-w-2xl', 'closeOnClickAway' => true, 'closeOnEscapeIsForceful' => true, 'dispatchCloseEvent' => false, 'destroyOnClose' => false];
 
         $id = md5($component . serialize($componentAttributes));
@@ -53,12 +56,21 @@ class ShowPostModalTest extends TestCase
     {
         $user = User::factory()->create();
         $category = Category::factory()->create();
-        $post = Post::factory()->for($category)->create();
+        $post = Post::factory()->for($category)->for($user)->create();
 
-        Livewire::test(ShowPostModal::class, [$user->name, $post->title, $category->name, $post->post_text])
+        Livewire::test(ShowPostModal::class, ['post_id' => $post->id])
             ->assertSet('author', $user->name)
             ->assertSet('title', $post->title)
             ->assertSet('category', $category->name)
             ->assertSet('post_text', $post->post_text);
+    }
+
+    public function test_post_author_is_set_to_anonymous_when_userId_is_null(): void 
+    {
+        $category = Category::factory()->create();
+        $post = Post::factory()->for($category)->create();
+
+        Livewire::test(ShowPostModal::class, ['post_id' => $post->id])
+            ->assertSet('author', 'Anonymous');
     }
 }
