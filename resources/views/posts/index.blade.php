@@ -16,7 +16,7 @@
         </div>
     </x-slot>
 
-    <div class="container">
+    <div class="container my-10">
         <div class="row">
             <!-- Blog entries-->
             @livewire('posts.show')

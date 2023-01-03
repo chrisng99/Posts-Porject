@@ -15,7 +15,6 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Styles -->
-    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     @livewireStyles
 </head>
 
@@ -41,6 +40,9 @@
     <!-- Livewire -->
     @livewire('livewire-ui-modal')
     @livewireScripts
+
+    {{-- Flowbite --}}
+    <script src="../path/to/flowbite/dist/flowbite.js"></script>
 </body>
 
 </html>

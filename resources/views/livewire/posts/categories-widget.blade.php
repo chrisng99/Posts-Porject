@@ -3,7 +3,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-sm-12">
-                <ul class="list-unstyled mb-0">
+                <ul class="list-none mb-0">
                     @foreach ($categories as $category)
                         <li>
                             <label class="inline-flex items-center">
