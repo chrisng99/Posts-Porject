@@ -22,13 +22,14 @@ class Show extends Component
         'showMyPostsEvent' => 'showMyPosts',
         'searchPostsEvent' => 'searchPosts',
         'filterPostsByCategoryEvent' => 'filterPostsByCategory',
-        'closedModalEvent' => 'showAllPosts',
+        'createdPostEvent' => 'showAllPosts',
+        'editedPostEvent' => '$refresh',
     ];
 
     public function render(): View|Factory
     {
         return view('livewire.posts.show', [
-            'posts' => Post::with('user', 'category')
+            'posts' => Post::with('user:id,name')
                 ->search($this->search)
                 ->when($this->categoriesFilters, fn ($query, $categoriesFilters) => $query->filterByCategories($categoriesFilters))
                 ->when($this->filterMyPosts, fn ($query) => $query->isAuthor())
@@ -67,6 +68,6 @@ class Show extends Component
             $post->delete();
         }
 
-        $this->resetExcept('filterMyPosts');
+        $this->resetPage();
     }
 }

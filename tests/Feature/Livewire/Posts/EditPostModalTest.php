@@ -176,6 +176,6 @@ class EditPostModalTest extends TestCase
             ->set('title', 'New Post Title')
             ->set('post_text', 'New post text.')
             ->call('submit')
-            ->assertEmitted('closedModalEvent');
+            ->assertEmitted('editedPostEvent');
     }
 }

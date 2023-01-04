@@ -51,6 +51,6 @@ class EditPostModal extends ModalComponent
             $this->post->update($this->validate());
         }
 
-        $this->closeModalWithEvents(['closedModalEvent']);
+        $this->closeModalWithEvents(['editedPostEvent']);
     }
 }

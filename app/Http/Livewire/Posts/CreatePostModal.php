@@ -38,6 +38,6 @@ class CreatePostModal extends ModalComponent
     {
         auth()->user()->posts()->create($this->validate());
 
-        $this->closeModalWithEvents(['closedModalEvent']);
+        $this->closeModalWithEvents(['createdPostEvent']);
     }
 }

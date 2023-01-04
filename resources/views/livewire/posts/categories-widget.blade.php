@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <ul class="list-none mb-0">
-                    @foreach ($categories as $category)
+                    @forelse ($categories as $category)
                         <li>
                             <label class="inline-flex items-center">
                                 <input wire:model="categoriesFilters" type="checkbox" value="{{ $category['id'] }}"
@@ -12,7 +12,9 @@
                                 <span class="ml-2 text-gray-600">{{ $category['name'] }}</span>
                             </label>
                         </li>
-                    @endforeach
+                    @empty
+                        <div>No categories found</div>
+                    @endforelse
                 </ul>
             </div>
         </div>

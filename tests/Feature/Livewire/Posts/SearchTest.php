@@ -40,7 +40,7 @@ class SearchTest extends TestCase
 
         Livewire::test(Search::class)
             ->set('search', 'Test Post')
-            ->emit('closedModalEvent')
+            ->emit('createdPostEvent')
             ->assertSet('search', '');
     }
 

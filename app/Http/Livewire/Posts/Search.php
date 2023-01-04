@@ -13,7 +13,7 @@ class Search extends Component
     protected $listeners = [
         'showAllPostsEvent' => 'resetFilters',
         'showMyPostsEvent' => 'resetFilters',
-        'closedModalEvent' => 'resetFilters',
+        'createdPostEvent' => 'resetFilters',
     ];
 
     public function render(): View|Factory

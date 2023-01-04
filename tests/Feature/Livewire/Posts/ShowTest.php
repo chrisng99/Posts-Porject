@@ -116,16 +116,31 @@ class ShowTest extends TestCase
             ->assertSet('categoriesFilters', []);
     }
 
-    public function test_show_all_posts_when_modal_is_closed(): void
+    public function test_show_all_posts_when_user_created_new_post(): void
     {
         Livewire::test(Show::class)
             ->set('filterMyPosts', true)
             ->set('search', 'Test search')
             ->set('categoriesFilters', ['category one', 'category two'])
-            ->emit('closedModalEvent')
+            ->emit('createdPostEvent')
             ->assertSet('filterMyPosts', false)
             ->assertSet('search', '')
             ->assertSet('categoriesFilters', []);
+    }
+
+    public function test_show_posts_screen_is_refreshed_after_user_edits_a_post(): void
+    {
+        $category = Category::factory()->create();
+        $post = Post::factory()->for($category)->create(['title' => 'Test Post 1']);
+
+        $livewireTest = Livewire::test(Show::class)
+            ->assertSee('Test Post 1');
+
+        $post->update(['title' => 'Updated Post Title']);
+
+        $livewireTest->emit('editedPostEvent')
+            ->assertDontSee('Test Post 1')
+            ->assertSee('Updated Post Title');
     }
 
     public function test_search_posts_works(): void

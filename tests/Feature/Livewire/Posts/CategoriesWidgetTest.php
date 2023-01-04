@@ -41,8 +41,14 @@ class CategoriesWidgetTest extends TestCase
 
         Livewire::test(CategoriesWidget::class)
             ->set('categoriesFilters', ['category one', 'category two'])
-            ->emit('closedModalEvent')
+            ->emit('createdPostEvent')
             ->assertSet('categoriesFilters', []);
+    }
+
+    public function test_widget_notifies_when_no_categories_have_been_found(): void 
+    {
+        Livewire::test(CategoriesWidget::class)
+            ->assertSee('No categories found');
     }
 
     public function test_categories_can_be_retrieved_by_widget(): void

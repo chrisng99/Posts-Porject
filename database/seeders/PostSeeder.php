@@ -11,7 +11,7 @@ class PostSeeder extends Seeder
 {
     public function run(): void
     {
-        for ($i = 0; $i < 60; $i++) {
+        for ($i = 0; $i < 200; $i++) {
             Post::create([
                 'title' => fake()->sentence(),
                 'post_text' => fake()->paragraphs(3, true),

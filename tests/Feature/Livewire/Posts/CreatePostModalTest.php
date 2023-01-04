@@ -105,7 +105,7 @@ class CreatePostModalTest extends TestCase
             ->assertSee('The category field cannot be empty.');
     }
 
-    public function test_closed_modal_event_is_emitted_after_submit(): void
+    public function test_created_post_event_is_emitted_after_submit(): void
     {
         Livewire::actingAs(User::factory()->create());
         $category = Category::factory()->create();
@@ -115,6 +115,6 @@ class CreatePostModalTest extends TestCase
             ->set('post_text', 'This is a test.')
             ->set('category_id', $category->id)
             ->call('submit')
-            ->assertEmitted('closedModalEvent');
+            ->assertEmitted('createdPostEvent');
     }
 }

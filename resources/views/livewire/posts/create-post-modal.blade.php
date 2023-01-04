@@ -16,9 +16,10 @@
                 <x-input-label>Post category:</x-input-label>
                 <select wire:model="category_id" class="p-1 mt-1 px-3 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-56">
                     <option value=''>Choose a category</option>
-                    @foreach ($categories as $category)
+                    @forelse ($categories as $category)
                         <option value={{ $category['id'] }}>{{ $category['name'] }}</option>
-                    @endforeach
+                    @empty
+                    @endforelse
                 </select>
                 <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
             </div>
