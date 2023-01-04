@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Category;
+use App\Models\Like;
 use App\Models\Post;
 use App\Models\User;
 use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
@@ -41,6 +42,20 @@ class PostsTest extends TestCase
         Post::factory()->for($category)->for($user)->create();
 
         $this->assertSame(Post::with('user')->first()->user->name, $user->name);
+    }
+
+    public function test_post_model_has_many_likes_model(): void 
+    {
+        $user = User::factory(10)->create();
+        $category = Category::factory()->create();
+        $post = Post::factory()->for($category)->for($user->random())->create();
+
+        $user->each(fn ($item) => Like::create([
+            'post_id' => $post->id,
+            'user_id' => $item->id,
+        ]));
+
+        $this->assertSame($post->likes()->count(), Like::all()->count());
     }
 
     public function test_post_text_truncated_accessor_functions(): void
