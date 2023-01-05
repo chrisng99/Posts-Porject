@@ -16,7 +16,7 @@ class ShowPostModal extends ModalComponent
     public $post_text;
     public $created_at;
     public $likesCount;
-    public $like;
+    public $liked;
 
     public function mount(): void
     {
@@ -26,7 +26,7 @@ class ShowPostModal extends ModalComponent
         $this->post_text = $this->post->post_text;
         $this->created_at = $this->post->created_at->format('F d, Y \a\t H:i');
         $this->likesCount = $this->post->likes->count();
-        $this->like = $this->post->likes->where('user_id', auth()->id())->first() ? true : false;
+        $this->liked = $this->post->likes->where('user_id', auth()->id())->first() ? true : false;
     }
 
     public function render(): View|Factory
@@ -41,13 +41,13 @@ class ShowPostModal extends ModalComponent
 
     public function like(): void
     {
-        if ($this->like) {
+        if ($this->liked) {
             $this->post->likes->where('user_id', auth()->id())->first()->delete();
         } else {
             $this->post->likes()->create(['user_id' => auth()->id()]);
         }
 
         $this->likesCount = $this->post->likes()->count();
-        $this->like = !$this->like;
+        $this->liked = !$this->liked;
     }
 }

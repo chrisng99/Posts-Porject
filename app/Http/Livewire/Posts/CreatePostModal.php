@@ -26,7 +26,7 @@ class CreatePostModal extends ModalComponent
 
     public function mount(): void
     {
-        $this->categories = Category::select('id', 'name')->get()->toArray();
+        $this->categories = Category::select('id', 'name')->get();
     }
 
     public function render(): View|Factory
