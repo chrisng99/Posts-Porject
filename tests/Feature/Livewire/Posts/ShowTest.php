@@ -83,11 +83,11 @@ class ShowTest extends TestCase
         Livewire::actingAs($user);
         Livewire::test(Show::class)
             ->assertSeeHtml("<a wire:click=\"\$emit('openModal', 'posts.edit-post-modal', {&quot;post_id&quot;:" . $post2->id . "})\">")
-            ->assertSeeHtml('<form class="ml-2" wire:submit.prevent="destroyPost(' . $post2->id . ')">')
+            ->assertSeeHtml('<form class="inline-block" wire:submit.prevent="destroyPost(' . $post2->id . ')">')
             ->assertDontSeeHtml("<a wire:click=\"\$emit('openModal', 'posts.edit-post-modal', {&quot;post_id&quot;:" . $post1->id . "})\">")
-            ->assertDontSeeHtml('<form class="ml-2" wire:submit.prevent="destroyPost(' . $post1->id . ')">')
+            ->assertDontSeeHtml('<form class="inline-block" wire:submit.prevent="destroyPost(' . $post1->id . ')">')
             ->assertDontSeeHtml("<a wire:click=\"\$emit('openModal', 'posts.edit-post-modal', {&quot;post_id&quot;:" . $post3->id . "})\">")
-            ->assertDontSeeHtml('<form class="ml-2" wire:submit.prevent="destroyPost(' . $post3->id . ')">');
+            ->assertDontSeeHtml('<form class="inline-block" wire:submit.prevent="destroyPost(' . $post3->id . ')">');
     }
 
     public function test_post_author_is_anonymous_when_user_id_is_null(): void

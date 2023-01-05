@@ -32,7 +32,7 @@
         @endif
 
         <!-- Page Content -->
-        <main>
+        <main class="py-12 w-full px-3 mx-auto min-[1400px]:max-w-[1320px] min-[1200px]:max-w-[1140px] min-[992px]:max-w-[960px] min-[815px]:max-w-[775px]">
             {{ $slot }}
         </main>
     </div>
