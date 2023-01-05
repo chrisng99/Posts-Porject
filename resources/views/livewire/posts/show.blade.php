@@ -2,7 +2,7 @@
     <!-- Featured blog post -->
     @forelse ($posts as $post)
         @if ($loop->first)
-            <x-featured-blog-post :$post />
+            <x-blog-post :$post :featured=true />
         @endif
     @empty
         <x-card>
@@ -16,7 +16,7 @@
             <!-- Blog post-->
             @forelse ($posts as $post)
                 @if (!$loop->first && $loop->even)
-                    <x-blog-post :$post />
+                    <x-blog-post :$post :featured=false />
                 @endif
             @empty
             @endforelse
@@ -25,13 +25,13 @@
             <!-- Blog post-->
             @forelse ($posts as $post)
                 @if (!$loop->first && $loop->odd)
-                    <x-blog-post :$post />
+                    <x-blog-post :$post :featured=false />
                 @endif
             @empty
             @endforelse
         </div>
     </div>
-    
+
     <!-- Pagination -->
     <div class="mt-6">
         {{ $posts->links() }}
