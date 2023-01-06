@@ -215,6 +215,24 @@ class ShowTest extends TestCase
         ]);
     }
 
+    public function test_admin_can_delete_any_post(): void
+    {
+        $user = User::factory()->create();
+        $admin = User::factory()->create(['is_admin' => true]);
+        $category = Category::factory()->create();
+        $post = Post::factory()->for($category)->for($user)->create();
+
+        Livewire::actingAs($admin)
+            ->test(Show::class)
+            ->call('destroyPost', $post->id)
+            ->assertSuccessful();
+
+        $this->assertDatabaseMissing('posts', [
+            'title' => $post->title,
+            'post_text' => $post->post_text,
+        ]);
+    }
+
     public function test_datetime_blade_directive_functions(): void
     {
         $category = Category::factory()->create();

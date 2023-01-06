@@ -64,7 +64,7 @@ class Show extends Component
 
     public function destroyPost(Post $post): void
     {
-        if (Gate::authorize('manage-post', $post)) {
+        if (Gate::authorize('delete-post', $post)) {
             $post->delete();
         }
 

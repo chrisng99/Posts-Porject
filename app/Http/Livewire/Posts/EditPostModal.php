@@ -47,7 +47,7 @@ class EditPostModal extends ModalComponent
 
     public function submit(): void
     {
-        if (Gate::authorize('manage-post', $this->post)) {
+        if (Gate::authorize('edit-post', $this->post)) {
             $this->post->update($this->validate());
         }
 
