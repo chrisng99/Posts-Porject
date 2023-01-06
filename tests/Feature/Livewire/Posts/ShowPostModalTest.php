@@ -4,6 +4,7 @@ namespace Tests\Feature\Livewire\Posts;
 
 use App\Http\Livewire\Posts\ShowPostModal;
 use App\Models\Category;
+use App\Models\Like;
 use App\Models\Post;
 use App\Models\User;
 use Livewire\Livewire;
@@ -58,19 +59,65 @@ class ShowPostModalTest extends TestCase
         $category = Category::factory()->create();
         $post = Post::factory()->for($category)->for($user)->create();
 
+        Livewire::actingAs($user);
         Livewire::test(ShowPostModal::class, ['post_id' => $post->id])
             ->assertSet('author', $user->name)
             ->assertSet('title', $post->title)
             ->assertSet('category', $category->name)
-            ->assertSet('post_text', $post->post_text);
+            ->assertSet('post_text', $post->post_text)
+            ->assertSet('created_at', $post->created_at->format('F d, Y \a\t H:i'))
+            ->assertSet('likesCount', $post->likes->count())
+            ->assertSet('liked', false);
+
+        Like::create([
+            'post_id' => $post->id,
+            'user_id' => $user->id,
+        ]);
+
+        Livewire::test(ShowPostModal::class, ['post_id' => $post->id])
+            ->assertSet('liked', true);
     }
 
-    public function test_post_author_is_set_to_anonymous_when_userId_is_null(): void 
+    public function test_post_author_is_set_to_anonymous_when_userId_is_null(): void
     {
         $category = Category::factory()->create();
         $post = Post::factory()->for($category)->create();
 
         Livewire::test(ShowPostModal::class, ['post_id' => $post->id])
             ->assertSet('author', 'Anonymous');
+    }
+
+    public function test_like_button_functions(): void
+    {
+        $user = User::factory()->create();
+        $category = Category::factory()->create();
+        $post = Post::factory()->for($category)->create();
+
+        // Like post
+        Livewire::actingAs($user);
+        Livewire::test(ShowPostModal::class, ['post_id' => $post->id])
+            ->call('like')
+            ->assertSet('likesCount', 1)
+            ->assertSet('liked', true)
+            ->assertSeeHtml('<button wire:click="like" class="inline-flex items-center text-sm font-medium text-blue-600 hover:underline">');
+
+        $this->assertDatabaseCount('likes', 1)
+            ->assertDatabaseHas('likes', [
+                'post_id' => $post->id,
+                'user_id' => $user->id,
+            ]);
+
+        // Unlike post
+        Livewire::test(ShowPostModal::class, ['post_id' => $post->id])
+            ->call('like')
+            ->assertSet('likesCount', 0)
+            ->assertSet('liked', false)
+            ->assertSeeHtml('<button wire:click="like" class="inline-flex items-center text-sm font-medium text-slate-500 hover:underline">');
+
+        $this->assertDatabaseCount('likes', 0)
+            ->assertDatabaseMissing('likes', [
+                'post_id' => $post->id,
+                'user_id' => $user->id,
+            ]);
     }
 }

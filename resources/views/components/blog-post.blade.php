@@ -4,11 +4,11 @@
     <div class="flex mb-1">
         <h3 class="text-xl font-semibold text-gray-900">{{ $post->title }}</h3>
     </div>
-    <footer class="-mb-3 text-sm text-gray-500">
+    <footer class="text-sm text-gray-500">
         <p>Written by {{ $post->user->name ?? 'Anonymous' }} on <time datetime="{{ $post->created_at }}">@datetime($post->created_at)</time></p>
     </footer>
 
-    <p class="mb-2 font-light text-gray-500 whitespace-pre-line">
+    <p class="mb-7 font-light text-gray-500 whitespace-pre-line">
         @if ($featured)
             {{ $post->post_text }}
         @else
