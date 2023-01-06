@@ -26,6 +26,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('manage-categories', fn (User $user) => $user->is_admin);
-        Gate::define('manage-post', fn (User $user, Post $post) => $user->id === $post->user_id);
+        Gate::define('edit-post', fn (User $user, Post $post) => $user->id === $post->user_id);
+        Gate::define('delete-post', fn (User $user, Post $post) => $user->id === $post->user_id || $user->is_admin);
     }
 }

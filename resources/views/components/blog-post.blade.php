@@ -18,16 +18,18 @@
 
     <div class="flex justify-between">
         <x-button wire:click="$emit('openModal', 'posts.show-post-modal', {{ json_encode(['post_id' => $post->id]) }})">Read more →</x-button>
-        @can('manage-post', $post)
-            <div class="space-x-2 place-self-center">
+        <div class="space-x-0.5 place-self-center">
+            @can('edit-post', $post)
                 <x-primary-button wire:click="$emit('openModal', 'posts.edit-post-modal', {{ json_encode(['post_id' => $post->id]) }})" type="button">Edit
                 </x-primary-button>
+            @endcan
+            @can('delete-post', $post)
                 <form class="inline-block" wire:submit.prevent="destroyPost({{ $post->id }})">
                     @csrf
 
                     <x-danger-button onclick="return confirm('Are you sure?')">Delete</x-danger-button>
                 </form>
-            </div>
-        @endcan
+            @endcan
+        </div>
     </div>
 </x-card>
