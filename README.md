@@ -12,20 +12,13 @@ This is a simple project aimed at bettering my skills in the Laravel framework. 
 -   Edit .env variables as necessary (timezone, database details)
 -   Run 'php artisan key:generate'
 -   Create a database in your server choice following the defined database variables in .env
--   Create another database for features testing purposes named 'MyFirstProjectLaravel.testing' (editable in the phpunit.xml file)
--   Run 'php artisan migrate --seed'
+-   Create another database for features testing purposes following the defined database variables in phpunit.xml
+-   Run 'php artisan migrate' or 'php artisan migrate --seed' if you wish to automatically seed 10 fake users and an admin user with the credentials listed below
+-   Run 'php artisan db:seed --class="CategorySeeder"' if you wish to seed 5 fake categories
+-   Run 'php artisan db:seed --class="PostSeeder"' if you wish to seed 200 fake posts (Ensure at least one user and one category has been created before seeding posts)
 
 The default login credentials for an admin user is:
 
 Email: admin@admin.com
 
 Password: admin
-
-## TODO list
-
--   UPDATE CATEGORIES PAGE TO MATCH STYLING OF POSTS PAGE -> IMPLEMENT LIVEWIRE
--   SHOW LIST OF PEOPLE WHO LIKED POSTS(?) -> USE CHILD MODALS
--   ALLOW USERS TO TAG MULTIPLE CATEGORIES ONTO ONE POST -> SEARCHABLE WITH CHECKBOXES(?)
-
--   MAKE POSTS PAGE ACCESSIBLE TO GUEST USERS BUT REDUCED FUNCTIONALITIES -> NO LIKE, CRUD POSTS
--   ADD COMMENTS

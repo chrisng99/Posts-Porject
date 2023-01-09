@@ -11,6 +11,7 @@ class PostSeeder extends Seeder
 {
     public function run(): void
     {
+        // Create 200 fake posts. Ensure at least one category and one user has been created before seeding posts
         for ($i = 0; $i < 200; $i++) {
             Post::create([
                 'title' => fake()->sentence(),

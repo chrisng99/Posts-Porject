@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
 {
+    // Create 10 fake users and one fake admin user
     public function run(): void
     {
         User::factory(10)->create();
