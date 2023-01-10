@@ -8,7 +8,7 @@ This is a simple project aimed at bettering my skills in the Laravel framework. 
 
 -   Clone github repository
 -   Run 'composer install'
--   Run 'npm install -D tailwindcss flowbite'
+-   Run 'npm install'
 -   Run 'npm run build'
 -   Run 'cp .env.example .env' or 'copy .env.example .env' to create a .env file based on the example file
 -   Edit .env variables as necessary (app_url, timezone, database details)
