@@ -10,7 +10,7 @@ This is a simple project aimed at bettering my skills in the Laravel framework. 
 -   Run 'composer install'
 -   Run 'npm install -D tailwindcss flowbite'
 -   Run 'npm run build'
--   Run 'cp .env.example .env' to create a .env file based on the example file
+-   Run 'cp .env.example .env' or 'copy .env.example .env' to create a .env file based on the example file
 -   Edit .env variables as necessary (app_url, timezone, database details)
 -   Run 'php artisan key:generate'
 -   Create a database in your server choice following the defined database variables in .env
