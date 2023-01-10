@@ -44,7 +44,7 @@ class PostsTest extends TestCase
         $this->assertSame(Post::with('user')->first()->user->name, $user->name);
     }
 
-    public function test_post_model_has_many_likes_model(): void 
+    public function test_post_model_has_many_likes_model(): void
     {
         $user = User::factory(10)->create();
         $category = Category::factory()->create();
@@ -61,7 +61,10 @@ class PostsTest extends TestCase
     public function test_post_text_truncated_accessor_functions(): void
     {
         $category = Category::factory()->create();
-        $post = Post::factory()->for($category)->create();
+        $post = Post::factory()->for($category)->create([
+            'post_text' => '1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890'
+                . '1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890'
+        ]);
 
         $this->assertEquals(strlen($post->post_text_truncated), 153);
     }
