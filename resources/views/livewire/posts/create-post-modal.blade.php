@@ -1,7 +1,5 @@
 <x-posts-modal>
-    <x-slot name="header">
-        {{ __('Create New Post') }}
-    </x-slot>
+    <x-slot name="header">Create New Post</x-slot>
 
     <div class="p-6 text-gray-900">
         <form wire:submit.prevent="submit">

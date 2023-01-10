@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\User;
 use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Support\Str;
 
 class PostsTest extends TestCase
 {
@@ -61,10 +62,7 @@ class PostsTest extends TestCase
     public function test_post_text_truncated_accessor_functions(): void
     {
         $category = Category::factory()->create();
-        $post = Post::factory()->for($category)->create([
-            'post_text' => '1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890'
-                . '1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890'
-        ]);
+        $post = Post::factory()->for($category)->create(['post_text' => Str::random(160)]);
 
         $this->assertEquals(strlen($post->post_text_truncated), 153);
     }

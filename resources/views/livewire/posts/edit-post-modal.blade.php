@@ -1,7 +1,5 @@
 <x-posts-modal>
-    <x-slot name="header">
-        {{ __('Edit Post') }}
-    </x-slot>
+    <x-slot name="header">Edit Post</x-slot>
 
     <div class="p-6 text-gray-900">
         <form wire:submit.prevent="submit">
