@@ -10,8 +10,6 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         // Create 5 fake categories
-        for ($i = 0; $i < 5; $i++) {
-            Category::create(['name' => fake()->word()]);
-        }
+        Category::factory(5)->create();
     }
 }
