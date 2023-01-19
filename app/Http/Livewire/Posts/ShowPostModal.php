@@ -24,7 +24,7 @@ class ShowPostModal extends ModalComponent
 
     public function mount(): void
     {
-        $this->author = $this->post->user->name ?? 'Anonymous';
+        $this->author = $this->post->user->name;
         $this->title = $this->post->title;
         $this->category = $this->post->category->name;
         $this->post_text = $this->post->post_text;

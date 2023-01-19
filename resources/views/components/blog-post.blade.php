@@ -5,7 +5,7 @@
         <h3 class="text-xl font-semibold text-gray-900">{{ $post->title }}</h3>
     </div>
     <footer class="text-sm text-gray-500">
-        <p>Written by {{ $post->user->name ?? 'Anonymous' }} on <time datetime="{{ $post->created_at }}">@datetime($post->created_at)</time></p>
+        <p>Written by {{ $post->user->name }} on <time datetime="{{ $post->created_at }}">@datetime($post->created_at)</time></p>
     </footer>
 
     <p class="mb-7 font-light text-gray-500 whitespace-pre-line">

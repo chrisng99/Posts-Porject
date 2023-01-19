@@ -22,7 +22,9 @@ class Post extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withDefault([
+            'name' => 'Anonymous',
+        ]);
     }
 
     public function likes(): HasMany
@@ -57,5 +59,10 @@ class Post extends Model
                 $query->orWhere('category_id', $categoriesFilter);
             }
         }
+    }
+
+    public function scopeFilterByAuthor($query, $userId = null): void
+    {
+        $query->where('user_id', $userId);
     }
 }
