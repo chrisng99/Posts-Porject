@@ -10,7 +10,7 @@ use Illuminate\Contracts\View\View;
 class CategoriesWidget extends Component
 {
     public $categories;
-    public $categoriesFilters = [];
+    public $categoryFilters = [];
 
     protected $listeners = [
         'showAllPostsEvent' => 'resetFilters',
@@ -28,13 +28,13 @@ class CategoriesWidget extends Component
         return view('livewire.posts.categories-widget');
     }
 
-    public function updatedCategoriesFilters(): void
+    public function updatedCategoryFilters(): void
     {
-        $this->emitTo('posts.show', 'filterPostsByCategoryEvent', $this->categoriesFilters);
+        $this->emitTo('posts.show', 'filterPostsByCategoryEvent', $this->categoryFilters);
     }
 
     public function resetFilters(): void
     {
-        $this->reset('categoriesFilters');
+        $this->reset('categoryFilters');
     }
 }
