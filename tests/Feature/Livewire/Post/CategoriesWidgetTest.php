@@ -30,19 +30,19 @@ class CategoriesWidgetTest extends TestCase
     public function test_filters_reset_on_event_listen(): void
     {
         Livewire::test(CategoriesWidget::class)
-            ->set('categoriesFilters', ['category one', 'category two'])
+            ->set('categoryFilters', ['category one', 'category two'])
             ->emit('showAllPostsEvent')
-            ->assertSet('categoriesFilters', []);
+            ->assertSet('categoryFilters', []);
 
         Livewire::test(CategoriesWidget::class)
-            ->set('categoriesFilters', ['category one', 'category two'])
+            ->set('categoryFilters', ['category one', 'category two'])
             ->emit('showMyPostsEvent')
-            ->assertSet('categoriesFilters', []);
+            ->assertSet('categoryFilters', []);
 
         Livewire::test(CategoriesWidget::class)
-            ->set('categoriesFilters', ['category one', 'category two'])
+            ->set('categoryFilters', ['category one', 'category two'])
             ->emit('createdPostEvent')
-            ->assertSet('categoriesFilters', []);
+            ->assertSet('categoryFilters', []);
     }
 
     public function test_widget_notifies_when_no_categories_have_been_found(): void 
@@ -61,10 +61,10 @@ class CategoriesWidgetTest extends TestCase
             ->assertSeeInOrder(['Food & Beverages', 'Sports', 'Travel']);
     }
 
-    public function test_filter_posts_event_is_emitted_on_categoriesFilters_change(): void
+    public function test_filter_posts_event_is_emitted_on_categoryFilters_change(): void
     {
         Livewire::test(CategoriesWidget::class)
-            ->set('categoriesFilters', ['category one', 'category two'])
+            ->set('categoryFilters', ['category one', 'category two'])
             ->assertEmitted('filterPostsByCategoryEvent', ['category one', 'category two']);
     }
 }

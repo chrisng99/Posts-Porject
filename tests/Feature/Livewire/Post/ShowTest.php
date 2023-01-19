@@ -103,17 +103,17 @@ class ShowTest extends TestCase
     {
         Livewire::test(Show::class)
             ->set('search', 'Test search')
-            ->set('categoriesFilters', ['category one', 'category two'])
+            ->set('categoryFilters', ['category one', 'category two'])
             ->emit('showAllPostsEvent')
             ->assertSet('search', '')
-            ->assertSet('categoriesFilters', []);
+            ->assertSet('categoryFilters', []);
 
         Livewire::test(Show::class)
             ->set('search', 'Test search')
-            ->set('categoriesFilters', ['category one', 'category two'])
+            ->set('categoryFilters', ['category one', 'category two'])
             ->emit('showMyPostsEvent')
             ->assertSet('search', '')
-            ->assertSet('categoriesFilters', []);
+            ->assertSet('categoryFilters', []);
     }
 
     public function test_show_all_posts_when_user_created_new_post(): void
@@ -121,11 +121,11 @@ class ShowTest extends TestCase
         Livewire::test(Show::class)
             ->set('filterMyPosts', true)
             ->set('search', 'Test search')
-            ->set('categoriesFilters', ['category one', 'category two'])
+            ->set('categoryFilters', ['category one', 'category two'])
             ->emit('createdPostEvent')
             ->assertSet('filterMyPosts', false)
             ->assertSet('search', '')
-            ->assertSet('categoriesFilters', []);
+            ->assertSet('categoryFilters', []);
     }
 
     public function test_show_posts_screen_is_refreshed_after_user_edits_a_post(): void

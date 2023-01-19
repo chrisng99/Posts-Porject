@@ -50,10 +50,10 @@ class Post extends Model
             ->orWhere('post_text', 'like', '%' . $search . '%');
     }
 
-    public function scopeFilterByCategories($query, $categoriesFilters): void
+    public function scopeFilterByCategories($query, $categoryFilters): void
     {
-        foreach ($categoriesFilters as $key => $categoriesFilter) {
-            if ($key === array_key_first($categoriesFilters)) {
+        foreach ($categoryFilters as $key => $categoriesFilter) {
+            if ($key === array_key_first($categoryFilters)) {
                 $query->where('category_id', $categoriesFilter);
             } else {
                 $query->orWhere('category_id', $categoriesFilter);

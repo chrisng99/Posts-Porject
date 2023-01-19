@@ -15,7 +15,7 @@ class Show extends Component
 
     public $filterMyPosts = false;
     public $search = '';
-    public $categoriesFilters = [];
+    public $categoryFilters = [];
 
     protected $listeners = [
         'showAllPostsEvent' => 'showAllPosts',
@@ -31,7 +31,7 @@ class Show extends Component
         return view('livewire.posts.show', [
             'posts' => Post::with('user:id,name')
                 ->search($this->search)
-                ->when($this->categoriesFilters, fn ($query, $categoriesFilters) => $query->filterByCategories($categoriesFilters))
+                ->when($this->categoryFilters, fn ($query, $categoryFilters) => $query->filterByCategories($categoryFilters))
                 ->when($this->filterMyPosts, fn ($query) => $query->isAuthor())
                 ->latest()
                 ->paginate(7)
@@ -56,9 +56,9 @@ class Show extends Component
         $this->resetPage();
     }
 
-    public function filterPostsByCategory($categoriesFilters): void
+    public function filterPostsByCategory($categoryFilters): void
     {
-        $this->categoriesFilters = $categoriesFilters;
+        $this->categoryFilters = $categoryFilters;
         $this->resetPage();
     }
 
