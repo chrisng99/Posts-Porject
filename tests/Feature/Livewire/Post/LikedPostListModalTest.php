@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Livewire\Posts;
+namespace Tests\Feature\Livewire\Post;
 
 use App\Http\Livewire\Posts\LikedPostListModal;
 use App\Models\Category;

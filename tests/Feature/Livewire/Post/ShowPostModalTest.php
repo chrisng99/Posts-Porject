@@ -1,13 +1,12 @@
 <?php
 
-namespace Tests\Feature\Livewire\Posts;
+namespace Tests\Feature\Livewire\Post;
 
 use App\Http\Livewire\Posts\ShowPostModal;
 use App\Models\Category;
 use App\Models\Like;
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Support\Arr;
 use Livewire\Livewire;
 use LivewireUI\Modal\Modal;
 use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
