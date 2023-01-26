@@ -25,8 +25,15 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        // In-app gates
         Gate::define('manage-categories', fn (User $user) => $user->is_admin);
         Gate::define('edit-post', fn (User $user, Post $post) => $user->id === $post->user_id);
         Gate::define('delete-post', fn (User $user, Post $post) => $user->id === $post->user_id || $user->is_admin);
+        
+        // Api gates
+        Gate::define('api-manage-categories', fn (User $user) => $user->tokenCan('category:manage') && $user->is_admin);
+        Gate::define('api-create-post', fn (User $user) => $user->tokenCan('post:store'));
+        Gate::define('api-edit-post', fn (User $user, Post $post) => $user->tokenCan('post:update') && $user->id === $post->user_id);
+        Gate::define('api-delete-post', fn (User $user, Post $post) => $user->tokenCan('post:destroy') && ($user->id === $post->user_id || $user->is_admin));
     }
 }
