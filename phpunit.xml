@@ -11,8 +11,8 @@
         <testsuite name="Feature">
             <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
-        <testsuite name="api">
-            <directory suffix="Test.php">./tests/Feature/api</directory>
+        <testsuite name="api.v1">
+            <directory suffix="Test.php">./tests/Feature/api/v1</directory>
         </testsuite>
         <testsuite name="Livewire.Post">
             <directory suffix="Test.php">./tests/Feature/Livewire/Post</directory>
