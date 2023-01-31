@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\api;
+namespace Tests\Feature\api\v1\Auth;
 
 use App\Models\User;
 use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;

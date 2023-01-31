@@ -1,32 +1,35 @@
 <?php
 
-namespace Tests\Feature\api\Category;
+namespace Tests\Feature\api\v1\Category;
 
+use App\Models\Category;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-class StoreTest extends TestCase
+class UpdateTest extends TestCase
 {
     use FastRefreshDatabase;
 
-    public function test_category_store_endpoint_returns_unauthenticated_when_accessed_by_user_without_sanctum_token(): void
+    public function test_category_update_endpoint_returns_unauthenticated_when_accessed_by_user_without_sanctum_token(): void
     {
-        $this->postJson(route('api.categories.store'))
+        $this->putJson(route('api.categories.update', 1))
             ->assertStatus(401)
             ->assertJson([
                 'message' => 'Unauthenticated.'
             ]);
     }
 
-    public function test_category_store_validation(): void
+    public function test_category_update_validation(): void
     {
+        $category = Category::factory()->create();
+
         Sanctum::actingAs(User::factory()->create(), []);
 
         // ['required']
-        $this->postJson(route('api.categories.store'))
+        $this->putJson(route('api.categories.update', $category->id))
             ->assertStatus(422)
             ->assertJsonCount(1, 'errors')
             ->assertInvalid([
@@ -35,7 +38,7 @@ class StoreTest extends TestCase
 
         // ['string']
         $this
-            ->postJson(route('api.categories.store'), [
+            ->putJson(route('api.categories.update', $category->id), [
                 'name' => ['Test Category'],
             ])
             ->assertStatus(422)
@@ -46,7 +49,7 @@ class StoreTest extends TestCase
 
         // ['max:255']
         $this
-            ->postJson(route('api.categories.store'), [
+            ->putJson(route('api.categories.update', $category->id), [
                 'name' => Str::random(256),
             ])
             ->assertStatus(422)
@@ -56,13 +59,30 @@ class StoreTest extends TestCase
             ]);
     }
 
-    public function test_category_store_endpoint_returns_forbidden_when_sanctum_token_does_not_have_ability_to_manage_categories(): void
+    public function test_category_update_endpoint_returns_error_when_no_category_found(): void
     {
         Sanctum::actingAs(User::factory()->create(), []);
 
         $this
-            ->postJson(route('api.categories.store'), [
-                'name' => 'Test Category',
+            ->putJson(route('api.categories.update', 1), [
+                'name' => 'Updated Category Name',
+            ])
+            ->assertStatus(404)
+            ->assertJson([
+                'status' => 'Error has occurred.',
+                'message' => 'The specified category could not be found.',
+            ]);
+    }
+
+    public function test_category_update_endpoint_returns_forbidden_when_sanctum_token_does_not_have_ability_to_manage_categories(): void
+    {
+        $category = Category::factory()->create();
+
+        Sanctum::actingAs(User::factory()->create(), []);
+
+        $this
+            ->putJson(route('api.categories.update', $category->id), [
+                'name' => 'Updated Category Name',
             ])
             ->assertStatus(403)
             ->assertJson([
@@ -71,13 +91,15 @@ class StoreTest extends TestCase
             ]);
     }
 
-    public function test_normal_user_with_token_ability_cannot_create_new_category(): void
+    public function test_category_update_endpoint_returns_forbidden_when_user_is_not_admin(): void
     {
+        $category = Category::factory()->create();
+
         Sanctum::actingAs(User::factory()->create(), ['category:manage']);
 
         $this
-            ->postJson(route('api.categories.store'), [
-                'name' => 'Test Category',
+            ->putJson(route('api.categories.update', $category->id), [
+                'name' => 'Updated Category Name',
             ])
             ->assertStatus(403)
             ->assertJson([
@@ -86,15 +108,17 @@ class StoreTest extends TestCase
             ]);
     }
 
-    public function test_admin_with_abiltiy_can_create_new_category(): void
+    public function test_admin_with_ability_can_update_category(): void
     {
+        $category = Category::factory()->create();
+
         Sanctum::actingAs(User::factory()->create(['is_admin' => true]), ['category:manage']);
 
         $this
-            ->postJson(route('api.categories.store'), [
-                'name' => 'Test Category',
+            ->putJson(route('api.categories.update', $category->id), [
+                'name' => 'Updated Category Name',
             ])
-            ->assertStatus(201)
+            ->assertStatus(200)
             ->assertJsonStructure([
                 'status',
                 'message',
@@ -104,14 +128,14 @@ class StoreTest extends TestCase
             ])
             ->assertJson([
                 'status' => 'Request was successful.',
-                'message' => 'Category has successfully been created.',
+                'message' => 'Category has successfully been updated.',
             ])
             ->assertJsonFragment([
-                'name' => 'Test Category',
+                'name' => 'Updated Category Name',
             ]);
 
         $this->assertDatabaseHas('categories', [
-            'name' => 'Test Category',
+            'name' => 'Updated Category Name',
         ]);
     }
 }

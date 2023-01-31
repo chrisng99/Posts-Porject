@@ -1,9 +1,8 @@
 <?php
 
-namespace Tests\Feature\api\Post;
+namespace Tests\Feature\api\v1\Post;
 
 use App\Models\Category;
-use App\Models\Like;
 use App\Models\Post;
 use App\Models\User;
 use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
