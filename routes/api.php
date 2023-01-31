@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\v1\AuthenticateSessionController;
+use App\Http\Controllers\api\v1\CategoryController;
 use App\Http\Controllers\api\v1\PostController;
 use App\Http\Controllers\api\v1\RegisterUserController;
 use Illuminate\Http\Request;
@@ -32,6 +33,7 @@ Route::prefix('v1')->group(function () {
         // Protected routes by Sanctum
         Route::middleware(['auth:sanctum'])->group(function () {
             Route::post('logout', [AuthenticateSessionController::class, 'destroy'])->name('logout');
+            Route::apiResource('categories', CategoryController::class)->except('show');
             Route::apiResource('posts', PostController::class)->only(['store', 'update', 'destroy']);
         });
     });

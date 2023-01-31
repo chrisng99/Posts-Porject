@@ -48,9 +48,15 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->renderable(function (NotFoundHttpException $e, $request) {
+
             if ($request->routeIs('api.posts.*')) {
                 return $this->error([], 'The specified post could not be found.', 404);
             }
+
+            if ($request->routeIs('api.categories.*')) {
+                return $this->error([], 'The specified category could not be found.', 404);
+            }
+
         });
     }
 }
