@@ -30,7 +30,7 @@ class Show extends Component
     {
         return view('livewire.posts.show', [
             'posts' => Post::with('user:id,name')
-                ->search($this->search)
+                ->when($this->search, fn ($query, $search) => $query->search($search))
                 ->when($this->categoryFilters, fn ($query, $categoryFilters) => $query->filterByCategories($categoryFilters))
                 ->when($this->filterMyPosts, fn ($query) => $query->isAuthor())
                 ->latest()
