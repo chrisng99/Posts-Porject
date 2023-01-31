@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreatePostRequest;
 use App\Http\Requests\IndexPostRequest;
-use App\Http\Requests\UpdatePostRequest;
+use App\Http\Requests\PostRequest;
 use App\Http\Resources\PostCollection;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\PostShowResource;
@@ -38,7 +37,7 @@ class PostController extends Controller
             : (new PostCollection($posts))->response();
     }
 
-    public function store(CreatePostRequest $request): JsonResponse
+    public function store(PostRequest $request): JsonResponse
     {
         if (Gate::denies('api-create-post')) {
             return $this->error([], 'User is not authorized to perform this action.', 403);
@@ -62,7 +61,7 @@ class PostController extends Controller
         return $this->success(['post' => new PostShowResource($post)]);
     }
 
-    public function update(UpdatePostRequest $request, Post $post): JsonResponse
+    public function update(PostRequest $request, Post $post): JsonResponse
     {
         if (Gate::denies('api-edit-post', $post)) {
             return $this->error([], 'User is not authorized to perform this action.', 403);
